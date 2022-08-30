@@ -47,7 +47,7 @@
 										<input name="email" class="form-control" type="text" placeholder="Email">
 									</div>
 									<div class="form-group">
-										<input name="password" class="form-control" type="password"" placeholder="Password">
+										<input name="password" class="form-control" type="password" placeholder="Password">
 									</div>
 									<div class="form-group">
 										<button class="btn btn-primary btn-block" type="submit">Login</button>

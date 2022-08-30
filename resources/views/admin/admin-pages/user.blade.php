@@ -22,17 +22,21 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Role</th>
+                                        <th>Email</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse ($admin_data as $a_data)
+                                    @if ($a_data -> name != 'provider')
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $loop -> index + 1 }}</td>
+                                        <td>{{ $a_data -> name }}</td>
+                                        <td>{{ $a_data -> roles -> name }}</td>
+                                        <td>{{ $a_data -> email }}</td>
                                         <td>
-                                            <a href="" class="btn btn-info">Edit</a>
-                                            <form style="display: inline" action="" method="POST">
+                                            <a href="{{ route('user.edit',$a_data -> id) }}" class="btn btn-info">Edit</a>
+                                            <form style="display: inline" action="{{ route('user.destroy',$a_data -> id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-danger">Delete</button>
@@ -40,6 +44,10 @@
                                             
                                         </td>
                                     </tr>
+                                    @endif
+                                    @empty
+                                        
+                                    @endforelse
                    
                                 </tbody>
                             </table>
@@ -55,7 +63,7 @@
                         <h4 class="card-title">Create User</h4>
                     </div>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="{{ route('user.store') }}" method="POST">
                             @csrf
                             @include('admin.admin-layout.validate')
                             <div class="form-group row">
@@ -63,10 +71,23 @@
                                 <div class="col-md-10">
                                     <input name="name" type="text" class="form-control">
                                 </div>
-                                
                             </div>
                             <div class="form-group row">
-                                    
+                                <label class="col-form-label col-md-2">Email</label>
+                                <div class="col-md-10">
+                                    <input name="email" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <select name="role" class="form-control">
+                                        <option>-Option-</option>
+                                        @forelse ($role_data as $item)
+                                        <option value="{{ $item -> id }}">{{ $item -> name }}</option>
+                                        @empty
+                                        <option>-No-</option>
+                                        @endforelse
+                                        
+                                    </select>
                             </div>
                             <button class="btn btn-info" type="submit">Submit</button>
                         </form>
@@ -75,39 +96,46 @@
             </div>
             @endif
             
-            {{-- @if ($form_type == 'edit')
+            @if ($form_type == 'edit')
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Permission</h4>
+                        <h4 class="card-title">Create User</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('role.update',$role_s -> id) }}" method="POST">
+                        <form action="{{ route('user.update',$data -> id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             @include('admin.admin-layout.validate')
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Name</label>
                                 <div class="col-md-10">
-                                    <input name="name" value="{{ $role_s -> name }}" type="text" class="form-control">
+                                    <input name="name" type="text" value="{{ $data -> name }}" class="form-control">
                                 </div>
-                                
                             </div>
                             <div class="form-group row">
-                                <ul>
-                                     @forelse ($per_data as $item)
-                                     <li><input @if(in_array($item -> name, json_decode($role_s -> permission))) checked @endif name="permission[]" value="{{ $item -> name }}" type="checkbox">{{ $item -> name }}</li>
-                                     @empty
-                                     <li>No</li>
-                                     @endforelse
-                                </ul>
-                        </div>
+                                <label class="col-form-label col-md-2">Email</label>
+                                <div class="col-md-10">
+                                    <input name="email" type="text" value="{{ $data -> email }}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <select name="role" class="form-control">
+                                        <option>-Option-</option>
+                                        @forelse ($role_data as $item)
+                                        <option @if($item -> id == $data -> role_id) selected @endif value="{{ $item -> id }}">{{ $item -> name }}</option>
+                                        @empty
+                                        <option>-No-</option>
+                                        @endforelse
+                                        
+                                    </select>
+                            </div>
                             <button class="btn btn-info" type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
-            @endif --}}
+            @endif
           
         </div>
 
