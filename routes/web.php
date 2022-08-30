@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\Permission;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +18,18 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Admin login And Auth
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/admin-login', [AdminAuthController::class , 'login'])->name('login')->middleware('redirect');
+Route::post('/admin-login', [AdminAuthController::class , 'login_check'])->name('login.check')->middleware('redirect');
+
+//logout
+Route::get('/logout', [AdminAuthController::class , 'logout'])->name('logout');
+//Dashboard
+Route::group(['middleware' => 'login'], function(){
+    Route::get('/dashboard', [AdminPageController::class , 'dashboard'])-> name('dashboard');
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('user', UserController::class);
 });
+
