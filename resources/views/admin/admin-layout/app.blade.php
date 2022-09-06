@@ -66,7 +66,7 @@
 		
 		<!-- Custom JS -->
 		<script  src="{{ asset('admin/assets/js/script.js') }}"></script>
-		
+		<script  src="{{ asset('admin/assets/js/custom.js') }}"></script>
     </body>
 
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:34 GMT -->
